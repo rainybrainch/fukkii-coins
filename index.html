@@ -260,6 +260,32 @@
     .feature-name { font-size: 14px; font-weight: 700; color: var(--accent-dark); margin-bottom: 4px; }
     .feature-desc { font-size: 12px; color: var(--text-light); line-height: 1.6; }
 
+    /* ── ギャラリー ── */
+    .gallery-note {
+      font-size: 13px;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      display: block;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .gallery-grid img:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(44,24,16,0.12);
+    }
+
     /* ── カテゴリ一覧 ── */
     .cat-group { margin-bottom: 24px; }
     .cat-group:last-child { margin-bottom: 0; }
@@ -557,6 +583,19 @@
               <p class="feature-desc">モルガンダラーやウォーカーハーフなど、人気の米国銀貨を随時出品。</p>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 取扱実績ギャラリー -->
+    <section style="background: var(--bg-section);">
+      <div class="container">
+        <h2 class="section-title fade-in">取扱実績ギャラリー</h2>
+        <p class="gallery-note fade-in">実際に出品・販売した商品の一部です。カラー記念コイン・銀貨・古銭など幅広く取り扱っています。</p>
+        <div class="gallery-grid fade-in">
+          <img src="image/スクリーンショット 2026-04-30 204525.png" alt="出品実績1 カラーコイン・記念硬貨など" loading="lazy">
+          <img src="image/スクリーンショット 2026-04-30 204614.png" alt="出品実績2 各種記念コイン" loading="lazy">
+          <img src="image/スクリーンショット 2026-04-30 204656.png" alt="出品実績3 カナダコインなど" loading="lazy">
         </div>
       </div>
     </section>
