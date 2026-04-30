@@ -27,6 +27,7 @@
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.8;
+      padding-bottom: 72px;
     }
 
     .container {
@@ -62,7 +63,26 @@
       letter-spacing: 0.05em;
     }
 
-    .nav-links { display: flex; gap: 24px; }
+    .nav-links { display: flex; gap: 20px; overflow-x: auto; }
+
+    /* ── 固定ショップバー ── */
+    .shop-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 98;
+      background: rgba(245, 240, 232, 0.96);
+      backdrop-filter: blur(6px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      padding: 10px 16px;
+      gap: 8px;
+    }
+    .shop-bar-label { font-size: 10px; color: var(--text-light); writing-mode: vertical-lr; align-self: center; flex-shrink: 0; letter-spacing: 0.05em; }
+    .shop-bar-btn { flex: 1; display: block; text-align: center; padding: 9px 4px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: 700; font-family: inherit; transition: opacity 0.15s, transform 0.15s; color: #fff; }
+    .shop-bar-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .shop-bar-btn.mercari { background: #E60012; }
+    .shop-bar-btn.paypay  { background: #CC0022; }
+    .shop-bar-btn.fril    { background: #D4703A; }
 
     .nav-links a {
       font-size: 14px;
@@ -238,7 +258,7 @@
     /* ── ページトップボタン ── */
     .back-to-top {
       position: fixed;
-      bottom: 24px;
+      bottom: 82px;
       right: 24px;
       width: 44px;
       height: 44px;
@@ -280,6 +300,8 @@
       <a href="index.html" class="nav-logo">🪙 フッキー硬貨店</a>
       <div class="nav-links">
         <a href="index.html">ホーム</a>
+        <a href="items.html">出品リスト</a>
+        <a href="about.html">自己紹介</a>
         <a href="blog.html" class="active">ブログ</a>
       </div>
     </div>
@@ -324,10 +346,20 @@
     <p class="footer-name">🪙 フッキー硬貨店</p>
     <nav class="footer-nav">
       <a href="index.html">ホーム</a>
+      <a href="items.html">出品リスト</a>
+      <a href="about.html">自己紹介</a>
       <a href="blog.html">ブログ</a>
     </nav>
     <small>© フッキー硬貨店 All rights reserved.</small>
   </footer>
+
+  <!-- 固定ショップバー -->
+  <div class="shop-bar">
+    <span class="shop-bar-label">今すぐ購入</span>
+    <a class="shop-bar-btn mercari" href="https://jp.mercari.com/user/profile/154811419" target="_blank" rel="noopener noreferrer">🛒 メルカリ</a>
+    <a class="shop-bar-btn paypay"  href="https://paypayfleamarket.yahoo.co.jp/user/p5948477" target="_blank" rel="noopener noreferrer">🏪 PayPay</a>
+    <a class="shop-bar-btn fril"    href="https://fril.jp/shop/ab6b2e952d69cf66db2ed4af7a8eecc7" target="_blank" rel="noopener noreferrer">🏷️ フリル</a>
+  </div>
 
   <!-- ページトップボタン -->
   <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
