@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ブログ | フッキー硬貨店</title>
+  <meta name="description" content="フッキー硬貨店のブログ。入荷情報・硬貨の話・コレクションのこぼれ話などを不定期で更新しています。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FAF8F3;
+      --bg-section: #F5F0E8;
+      --text: #2C1810;
+      --text-light: #6B5040;
+      --accent: #8B6914;
+      --accent-dark: #6B5011;
+      --border: #D4C5A0;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Serif JP', serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── ナビゲーション ── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-section);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    .nav-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 52px;
+    }
+
+    .nav-logo {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent-dark);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-links { display: flex; gap: 24px; }
+
+    .nav-links a {
+      font-size: 14px;
+      color: var(--text-light);
+      text-decoration: none;
+      transition: color 0.15s;
+      padding-bottom: 2px;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--accent-dark);
+      border-bottom: 2px solid var(--accent);
+    }
+
+    /* ── ページヘッダー ── */
+    .page-header {
+      background: var(--bg-section);
+      border-bottom: 2px solid var(--border);
+      padding: 40px 24px 36px;
+      text-align: center;
+    }
+
+    .page-header h1 {
+      font-size: clamp(22px, 5vw, 28px);
+      font-weight: 700;
+      color: var(--accent-dark);
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+
+    .page-header p {
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    /* ── 記事フィード ── */
+    .feed {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+      display: grid;
+      gap: 24px;
+    }
+
+    /* ── 記事カード ── */
+    .post {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .post-header {
+      padding: 22px 24px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .post-date {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    .post-tag {
+      font-size: 11px;
+      background: var(--bg-section);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2px 10px;
+      color: var(--accent-dark);
+    }
+
+    .post-title {
+      font-size: clamp(16px, 4vw, 19px);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .post-body {
+      padding: 20px 24px;
+      font-size: clamp(13px, 3vw, 14px);
+      color: var(--text-light);
+      line-height: 1.9;
+    }
+
+    .post-body p + p { margin-top: 14px; }
+
+    .post-body h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 18px 0 8px;
+      padding-left: 10px;
+      border-left: 3px solid var(--accent);
+    }
+
+    .post-body ul {
+      list-style: none;
+      margin: 8px 0;
+      display: grid;
+      gap: 6px;
+    }
+
+    .post-body ul li {
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .post-body ul li::before { content: "・"; position: absolute; left: 0; color: var(--accent); }
+
+    /* ── 記事展開トグル ── */
+    .post-toggle-wrap {
+      padding: 0 24px 20px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .post-preview {
+      padding: 16px 24px 4px;
+      font-size: clamp(13px, 3vw, 14px);
+      color: var(--text-light);
+      line-height: 1.9;
+    }
+
+    .post-full { display: none; }
+    .post.expanded .post-full { display: block; }
+    .post.expanded .post-preview { display: none; }
+
+    .post-toggle {
+      margin-top: 16px;
+      background: none;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      padding: 8px 18px;
+      font-family: inherit;
+      font-size: 13px;
+      color: var(--accent-dark);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .post-toggle:hover { background: var(--accent); color: #fff; }
+
+    /* ── 記事なし ── */
+    .no-posts {
+      text-align: center;
+      padding: 60px 24px;
+      color: var(--text-light);
+      font-size: 14px;
+    }
+
+    /* ── フッター ── */
+    footer {
+      background: var(--bg-section);
+      border-top: 2px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    footer .footer-name { font-size: 16px; font-weight: 700; color: var(--accent-dark); margin-bottom: 8px; letter-spacing: 0.06em; }
+    footer .footer-nav { display: flex; justify-content: center; gap: 20px; margin-bottom: 12px; }
+    footer .footer-nav a { font-size: 13px; color: var(--text-light); text-decoration: none; }
+    footer .footer-nav a:hover { color: var(--accent-dark); }
+    footer small { font-size: 12px; color: var(--text-light); }
+
+    /* ── ページトップボタン ── */
+    .back-to-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.2s, transform 0.2s, background 0.15s;
+      z-index: 99;
+      line-height: 1;
+    }
+
+    .back-to-top:hover { background: var(--accent-dark); }
+    .back-to-top.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── フェードイン ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 480px) {
+      .post-header, .post-body, .post-preview, .post-toggle-wrap { padding-left: 16px; padding-right: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ナビゲーション -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">🪙 フッキー硬貨店</a>
+      <div class="nav-links">
+        <a href="index.html">ホーム</a>
+        <a href="blog.html" class="active">ブログ</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ページヘッダー -->
+  <div class="page-header">
+    <h1>📝 ブログ</h1>
+    <p>入荷情報・硬貨のこぼれ話・コレクションの豆知識など</p>
+  </div>
+
+  <!-- 記事フィード -->
+  <!--
+    =========================================================
+    ブログ記事の追加方法：
+    以下の <article class="post fade-in"> ... </article> を
+    コピーして上に貼り付けてください（新しい記事が上に来ます）。
+    日付・タグ・タイトル・本文を書き換えるだけでOKです。
+    =========================================================
+  -->
+  <div class="feed">
+
+    <!-- 記事4 -->
+    <article class="post fade-in">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-date">2026年4月30日</span>
+          <span class="post-tag">入荷情報</span>
+        </div>
+        <h2 class="post-title">春の入荷まとめ——古銭・記念硬貨を多数追加しました</h2>
+      </div>
+      <div class="post-preview">
+        春先にまとめて仕入れた品々をメルカリ・PayPayフリマ・フリルに出品しました。今回は特に江戸期の古銭と昭和記念硬貨が充実しています……
+      </div>
+      <div class="post-full">
+        <div class="post-body">
+          <p>春先にまとめて仕入れた品々を各サイトに出品しました。今回は特に江戸期の古銭と昭和記念硬貨が充実しています。</p>
+          <h3>今回の主な入荷品</h3>
+          <ul>
+            <li>寛永通宝（文銭）— 状態良好のものを5点</li>
+            <li>天保通宝 — 擦れあり美品クラス 3点</li>
+            <li>昭和天皇御在位60年記念 10万円金貨（ケース付き）</li>
+            <li>1964年東京オリンピック記念1000円銀貨 2点</li>
+            <li>アメリカ・モルガンダラー 1885年 VF〜EF</li>
+          </ul>
+          <p>写真は実物を複数角度から撮影していますので、ページ内でご確認ください。状態についてご不明な点があればお気軽にメッセージをどうぞ。</p>
+        </div>
+      </div>
+      <div class="post-toggle-wrap">
+        <button class="post-toggle" onclick="togglePost(this)">続きを読む ▼</button>
+      </div>
+    </article>
+
+    <!-- 記事3 -->
+    <article class="post fade-in">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-date">2026年3月15日</span>
+          <span class="post-tag">コレクションの話</span>
+        </div>
+        <h2 class="post-title">コインの保管方法——長期保存のために気をつけていること</h2>
+      </div>
+      <div class="post-preview">
+        硬貨を長期間きれいに保管するにはどうすればいいか。30年以上コインを集めてきた経験から、実際に使っている方法をご紹介します……
+      </div>
+      <div class="post-full">
+        <div class="post-body">
+          <p>硬貨を長期間きれいに保管するにはどうすればいいか。30年以上コインを集めてきた経験から、実際に使っている方法をご紹介します。</p>
+          <h3>基本の3原則</h3>
+          <ul>
+            <li>素手で触らない——指の油分が表面を変色させます。コットン手袋を使うのがおすすめです。</li>
+            <li>湿気を避ける——シリカゲルと一緒に密閉容器や専用コインケースに収納します。</li>
+            <li>重ねて保管しない——コイン同士が擦れて傷がつきます。一枚ずつOPP袋またはコインスリーブに入れましょう。</li>
+          </ul>
+          <h3>磨かないことが大切</h3>
+          <p>古銭や銀貨についた黒ずみ（パティナ）はコレクターには「味」として評価されることが多く、むやみに磨くと価値が下がります。気になる場合は専門家に相談するのがベターです。</p>
+          <p>出品する際も、この考え方でコンディションを正直に記載しています。</p>
+        </div>
+      </div>
+      <div class="post-toggle-wrap">
+        <button class="post-toggle" onclick="togglePost(this)">続きを読む ▼</button>
+      </div>
+    </article>
+
+    <!-- 記事2 -->
+    <article class="post fade-in">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-date">2026年2月8日</span>
+          <span class="post-tag">豆知識</span>
+        </div>
+        <h2 class="post-title">天保通宝はなぜ楕円形？——江戸時代の通貨事情</h2>
+      </div>
+      <div class="post-preview">
+        日本の古銭の中でもひときわ目立つ楕円形の「天保通宝」。なぜあの独特な形になったのか、その背景を少しご紹介します……
+      </div>
+      <div class="post-full">
+        <div class="post-body">
+          <p>日本の古銭の中でもひときわ目立つ楕円形の「天保通宝」。なぜあの独特な形になったのか、その背景を少しご紹介します。</p>
+          <h3>100文銭という発想</h3>
+          <p>天保通宝は天保6年（1835年）に発行された100文銭です。それまでの主流だった1文銭・4文銭と比べると高額貨幣で、財政難に苦しむ幕府が少ない銅を使って大きな額面を作る工夫から生まれました。</p>
+          <h3>楕円形の理由</h3>
+          <p>実は楕円形は当時の一分銀（いちぶぎん）を模したとされています。また丸形よりも素材の節約ができるという実用的な側面もあったようです。現代でいえば、材料コストを抑えた高額紙幣に近い発想といえるでしょう。</p>
+          <p>当店でも状態の良い天保通宝を随時出品しています。ぜひ出品ページもご覧ください。</p>
+        </div>
+      </div>
+      <div class="post-toggle-wrap">
+        <button class="post-toggle" onclick="togglePost(this)">続きを読む ▼</button>
+      </div>
+    </article>
+
+    <!-- 豆知識3 -->
+    <article class="post fade-in">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-date">2026年1月25日</span>
+          <span class="post-tag">豆知識</span>
+        </div>
+        <h2 class="post-title">外国コインのコンディション基準——UNC・EF・VFって何？</h2>
+      </div>
+      <div class="post-preview">
+        外国コインを見ていると「UNC」「EF」「VF」といった略語をよく目にします。これはコインの状態を示す国際的なグレーディング基準です……
+      </div>
+      <div class="post-full">
+        <div class="post-body">
+          <p>外国コインを見ていると「UNC」「EF」「VF」といった略語をよく目にします。これはコインの状態を示す国際的なグレーディング基準です。</p>
+          <h3>主なグレードの目安</h3>
+          <ul>
+            <li><strong>MS / UNC（未使用）</strong>——流通していない新品同様の状態。光沢が残っている。</li>
+            <li><strong>EF / XF（極美品）</strong>——わずかな使用感があるが、細部のデザインが明瞭。</li>
+            <li><strong>VF（美品）</strong>——適度な流通痕があり、細部は摩耗しているが主要デザインは鮮明。</li>
+            <li><strong>F（並品）</strong>——流通による摩耗が目立つが、全体のデザインは判別できる。</li>
+          </ul>
+          <h3>シェルドン・スケールとは</h3>
+          <p>アメリカでは1〜70の数値で状態を細かく評価する「シェルドン・スケール」も使われます。数値が高いほど状態が良く、MS-65以上はプレミアム品として扱われます。</p>
+          <p>当店では出品ページで状態をなるべく分かりやすくご説明するよう心がけています。</p>
+        </div>
+      </div>
+      <div class="post-toggle-wrap">
+        <button class="post-toggle" onclick="togglePost(this)">続きを読む ▼</button>
+      </div>
+    </article>
+
+    <!-- 豆知識2 -->
+    <article class="post fade-in">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-date">2026年1月20日</span>
+          <span class="post-tag">豆知識</span>
+        </div>
+        <h2 class="post-title">記念硬貨の価値の調べ方——何が価格を決めるのか</h2>
+      </div>
+      <div class="post-preview">
+        親の形見の記念硬貨が出てきた、昔買ったプルーフセットがある——そんなとき、その価値はどうやって調べればいいのでしょうか……
+      </div>
+      <div class="post-full">
+        <div class="post-body">
+          <p>親の形見の記念硬貨が出てきた、昔買ったプルーフセットがある——そんなとき、その価値はどうやって調べればいいのでしょうか。</p>
+          <h3>価値を決める3つの要素</h3>
+          <ul>
+            <li><strong>発行枚数</strong>——少ないほど希少性が上がります。造幣局の資料や書籍で確認できます。</li>
+            <li><strong>保存状態（グレード）</strong>——未使用・ケース入りのものは特に高く評価されます。</li>
+            <li><strong>需要</strong>——オリンピック・皇室関連など話題性のある年度は人気が集まりやすい傾向があります。</li>
+          </ul>
+          <h3>調べ方の手順</h3>
+          <p>まずはフリマアプリやオークションサイトの「売れた履歴」を確認するのが手軽です。額面割れしているものもあれば、プレミアがついているものもあります。判断が難しい場合は専門店に持ち込むのもよいでしょう。</p>
+          <p>当店でも出品ページに状態・入手経緯を記載していますので、参考にしていただければ幸いです。</p>
+        </div>
+      </div>
+      <div class="post-toggle-wrap">
+        <button class="post-toggle" onclick="togglePost(this)">続きを読む ▼</button>
+      </div>
+    </article>
+
+    <!-- 豆知識1 -->
+    <article class="post fade-in">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-date">2026年1月15日</span>
+          <span class="post-tag">豆知識</span>
+        </div>
+        <h2 class="post-title">寛永通宝の種類と見分け方——文銭ってなに？</h2>
+      </div>
+      <div class="post-preview">
+        古銭の入門としてよく挙げられる「寛永通宝」。一口に寛永通宝といっても実は多くの種類があります。素材や鋳造地によって見た目も価値も違うのです……
+      </div>
+      <div class="post-full">
+        <div class="post-body">
+          <p>古銭の入門としてよく挙げられる「寛永通宝」。一口に寛永通宝といっても実は多くの種類があります。素材や鋳造地によって見た目も価値も違うのです。</p>
+          <h3>素材による分類</h3>
+          <ul>
+            <li><strong>銅銭</strong>——最も一般的。赤みがかった色が特徴。</li>
+            <li><strong>鉄銭</strong>——重くて錆びやすい。銅銭より入手しやすいが状態の良いものは少ない。</li>
+            <li><strong>真鍮銭（しんちゅうせん）</strong>——黄金色に近く、見た目が美しい。希少価値が高め。</li>
+          </ul>
+          <h3>「文銭（ぶんせん）」とは</h3>
+          <p>文銭とは、裏面に「文」の字や波模様（宝波）が描かれた寛永通宝の通称です。明暦年間（1655年頃）以降に鋳造されたもので、デザインの美しさからコレクターに特に人気があります。</p>
+          <h3>見分けのポイント</h3>
+          <p>書体（「永」の字の形）、裏面の模様の有無、重さで大まかに分類できます。専門書や古銭鑑定サイトと比較しながら見ると楽しさが広がります。</p>
+        </div>
+      </div>
+      <div class="post-toggle-wrap">
+        <button class="post-toggle" onclick="togglePost(this)">続きを読む ▼</button>
+      </div>
+    </article>
+
+    <!-- 記事1（最初の記事）-->
+    <article class="post fade-in">
+      <div class="post-header">
+        <div class="post-meta">
+          <span class="post-date">2026年4月30日</span>
+          <span class="post-tag">お知らせ</span>
+        </div>
+        <h2 class="post-title">フッキー硬貨店のホームページを開設しました</h2>
+      </div>
+      <div class="post-body">
+        <p>はじめまして。フッキー硬貨店です。メルカリ・PayPayフリマ・フリルで硬貨を出品しています。</p>
+        <p>このたびホームページを開設しました。ブログでは入荷情報や硬貨にまつわるこぼれ話などを不定期でお届けする予定です。どうぞよろしくお願いします。</p>
+      </div>
+    </article>
+
+  </div><!-- /feed -->
+
+  <!-- フッター -->
+  <footer>
+    <p class="footer-name">🪙 フッキー硬貨店</p>
+    <nav class="footer-nav">
+      <a href="index.html">ホーム</a>
+      <a href="blog.html">ブログ</a>
+    </nav>
+    <small>© フッキー硬貨店 All rights reserved.</small>
+  </footer>
+
+  <!-- ページトップボタン -->
+  <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+  <script>
+    function togglePost(btn) {
+      const post = btn.closest('.post');
+      const isExpanded = post.classList.toggle('expanded');
+      btn.textContent = isExpanded ? '閉じる ▲' : '続きを読む ▼';
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    const backBtn = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      backBtn.classList.toggle('visible', window.scrollY > 300);
+    });
+  </script>
+
+</body>
+</html>
